@@ -1,35 +1,27 @@
 package view;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import data.WeatherDataLoader;
+import util.ClickHandler;
 
 public class Map {
-    private static final int IMAGE_WIDTH = 500;
-    private static final int IMAGE_HEIGHT = 500;
-    private final Pane pane;
+    private final Pane pane = new Pane();
     private final MapGrid mapGrid;
-    public Map() {
-        this.pane = new Pane();
-        this.pane.setPrefSize(IMAGE_WIDTH, IMAGE_HEIGHT);
-        loadMapImage();
-        this.mapGrid = new MapGrid();
-        this.pane.getChildren().addAll(mapGrid.getCells());
-    }
-    private void loadMapImage() {
-        Image mapImage;
-        try {
-            mapImage = new Image(getClass().getResourceAsStream("/resources/map.png"));
-        } catch (Exception e) {
-            System.out.println("Error loading map.png: " + e.getMessage());
 
-            mapImage = new Image(" ");
+    public Map(ClickHandler clickHandler, WeatherDataLoader weatherDataLoader) {
+        if (weatherDataLoader.getMapImage() != null) {
+            ImageView imageView = new ImageView(weatherDataLoader.getMapImage());
+            imageView.setFitWidth(500);
+            imageView.setFitHeight(500);
+            pane.getChildren().add(imageView);
+        } else {
+            pane.setStyle("-fx-background-color: lightgray;");
         }
-        ImageView imageView = new ImageView(mapImage);
-        imageView.setFitWidth(IMAGE_WIDTH);
-        imageView.setFitHeight(IMAGE_HEIGHT);
-        pane.getChildren().add(imageView);
+        mapGrid = new MapGrid(clickHandler);
+        pane.getChildren().addAll(mapGrid.getCells());
     }
+
     public Pane getPane() {
         return pane;
     }
