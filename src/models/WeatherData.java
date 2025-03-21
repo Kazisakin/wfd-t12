@@ -10,6 +10,9 @@ public class WeatherData {
     private final double dryness;
 
     public WeatherData(int row, int col, int hour, double temperature, double windSpeed, double humidity, double dryness) {
+        if (row < 0 || col < 0 || hour < 0) {
+            throw new IllegalArgumentException("Row, col, and hour must be non-negative");
+        }
         this.row = row;
         this.col = col;
         this.hour = hour;
@@ -17,6 +20,7 @@ public class WeatherData {
         this.windSpeed = windSpeed;
         this.humidity = humidity;
         this.dryness = dryness;
+    
     }
 
     public int getRow() {
