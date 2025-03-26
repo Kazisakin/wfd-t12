@@ -16,7 +16,6 @@ public class TimeSlider {
             heatMap.updateHeatMap(hour);
             updater.updateHour(hour);
         });
-
         pane.getChildren().addAll(label, slider);
     }
 

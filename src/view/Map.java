@@ -2,24 +2,24 @@ package view;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import data.WeatherDataLoader;
+import data.MapImageProvider;
 import util.ClickHandler;
 
-public class Map {
-    private final Pane pane = new Pane();
-    private final MapGrid mapGrid;
+public abstract class Map {
+    protected final Pane pane = new Pane();
+    protected final ClickHandler clickHandler;
 
-    public Map(ClickHandler clickHandler, WeatherDataLoader weatherDataLoader) {
-        if (weatherDataLoader.getMapImage() != null) {
-            ImageView imageView = new ImageView(weatherDataLoader.getMapImage());
+    public Map(ClickHandler clickHandler, MapImageProvider imageProvider) {
+        this.clickHandler = clickHandler;
+        if (imageProvider.getMapImage() != null) {
+            ImageView imageView = new ImageView(imageProvider.getMapImage());
             imageView.setFitWidth(500);
             imageView.setFitHeight(500);
             pane.getChildren().add(imageView);
         } else {
             pane.setStyle("-fx-background-color: lightgray;");
         }
-        mapGrid = new MapGrid(clickHandler);
-        pane.getChildren().addAll(mapGrid.getCells());
+
     }
 
     public Pane getPane() {

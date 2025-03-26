@@ -1,31 +1,26 @@
 package view;
 
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import data.WeatherDataLoader;
+import javafx.scene.shape.Rectangle;
+import data.MapImageProvider;
+import data.WeatherDataProvider;
 import util.ClickHandler;
+import java.util.Arrays;
 
-public class HeatMap {
-    private final Pane pane = new Pane();
+public class HeatMap extends Map {
     private final HeatMapGrid heatMapGrid;
 
-    public HeatMap(WeatherDataLoader dataLoader, ClickHandler clickHandler) {
-        if (dataLoader.getMapImage() != null) {
-            ImageView imageView = new ImageView(dataLoader.getMapImage());
-            imageView.setFitWidth(500);
-            imageView.setFitHeight(500);
-            pane.getChildren().add(imageView);
-        }
-        heatMapGrid = new HeatMapGrid(dataLoader, clickHandler);
-        pane.getChildren().addAll(heatMapGrid.getCells());
+    public HeatMap(MapImageProvider imageProvider, WeatherDataProvider dataProvider, ClickHandler clickHandler) {
+        super(clickHandler, imageProvider);
+        this.heatMapGrid = new HeatMapGrid(dataProvider, clickHandler);
+        pane.getChildren().addAll(Arrays.asList(heatMapGrid.getCells()));
         pane.setMinSize(500, 500);
+    }
+
+    protected Rectangle[] getGridCells() { 
+        return heatMapGrid.getCells();
     }
 
     public void updateHeatMap(int hour) {
         heatMapGrid.updateGrid(hour);
-    }
-
-    public Pane getPane() {
-        return pane;
     }
 }
