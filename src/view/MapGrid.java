@@ -35,18 +35,12 @@ public class MapGrid {
     }
 
     private Rectangle makeCell(int r, int c) {
-        Rectangle cell = new Rectangle(
-                c * cellWidth, r * cellHeight,
-                cellWidth, cellHeight
-        );
+        Rectangle cell = new Rectangle(c * cellWidth, r * cellHeight, cellWidth, cellHeight);
         cell.setFill(Color.TRANSPARENT);
         cell.setStroke(Color.BLACK);
-
         double lat = baseLat + (r * latStep);
         double lon = baseLon + (c * lonStep);
-
         cell.setOnMouseClicked(e -> cellClick(r, c, lat, lon));
-
         return cell;
     }
 
